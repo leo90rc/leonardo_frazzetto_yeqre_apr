@@ -1,0 +1,15 @@
+{
+    "project_name": "",
+    "author": "Leonardo Frazzetto",
+    "linkedin": "https://www.linkedin.com/in/leonardo-frazzetto/",
+    "e_mail": "leonardo.frazzetto1990@gmail.com",
+    "project_title": "",
+    "project_description": "",
+    "flask_port": "INT del puerto",
+    "streamlit_port": "INT del puerto",
+    "links": "",
+    "python_libraries_used": ["pandas", "os", "sys", "seaborn", "matplotlib.pyplot", "numpy", "streamlit", "PIL", "argparse", "json", "flask"]
+}
+
+# PREGUNTAR SI HAY QUE AGREGAR python_libraries_used, porque en el
+# Jupyter que habla del proyecto no aparece.
