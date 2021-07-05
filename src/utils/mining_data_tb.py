@@ -7,7 +7,7 @@ sep = os.sep
 project_path = dir(dir(dir(os.path.abspath(__file__))))
 sys.path.append(project_path)
 
-def nombres_carpetas_ok(lista_carpetas):
+def nombres_carpetas_ok(lista_carpetas): # NO UTILIZADAAAAAAAAAAAAA
     lista_carpetas_ok = []
     for i in lista_carpetas:
         i = i[10::]
