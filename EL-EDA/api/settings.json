@@ -1,0 +1,8 @@
+{
+    "server_running": true,
+    "port": 6060,
+    "debug": true,
+    "host": "127.0.0.1",
+    "argparse": 8642,
+    "token_id": "Y6571256D"
+}

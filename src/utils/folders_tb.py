@@ -3,6 +3,7 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
+import json
 
 dir = os.path.dirname
 sep = os.sep
@@ -31,12 +32,7 @@ def cargar_imagenes_diccionario(path):      # NO UTILIZADAAAAAAAAAAAAAAAA
 
 
 def cargar_imagenes_tf(batch_size, img_height, img_width, data_dir, val_split, seed):
-    
-    batch_size = batch_size
-    img_height = img_height
-    img_width = img_width
-    data_dir = data_dir
-    
+
     if val_split == 0:
 
         train_ds = tf.keras.preprocessing.image_dataset_from_directory(data_dir,                                                                                                                                  
@@ -60,3 +56,10 @@ def cargar_imagenes_tf(batch_size, img_height, img_width, data_dir, val_split, s
                                                                  batch_size=batch_size)
 
     return train_ds, val_ds
+
+
+def read_json(fullpath):
+    '''Lee y retorna un fichero ".json". Se debe pasar como argumento la dirección del fichero.'''
+    with open(fullpath, "r") as json_file_readed:
+        json_readed = json.load(json_file_readed)
+    return json_readed
