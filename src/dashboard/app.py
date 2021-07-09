@@ -35,6 +35,7 @@ if menu == 'Bienvenida':
 
 
 if menu == "Visualización":
+    pass # ESTE PASS DEBE QUITARSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE !!!!!!!!!!!!!!!!!!!!!!!!!!
 
     st.title('Accidentes de tráfico registrados por la Guardia Urbana de la ciudad de Barcelona en sus barrios más turísticos')
     st.write('En la siguiente sección se presentan, evaluados por cada mes, los accidentes de tráfico registados por la Guardia Urbana de la ciudad de Barcelona, para los barrios de mayor concurrencia de turistas en los meses de temporada alta.')
@@ -93,6 +94,7 @@ if menu == "Visualización":
             st.image (vila_gracia,use_column_width=True)
 
 if menu == "Predicción del modelo":
+    pass # ESTE PASS DEBE QUITARSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     st.title('WEB APP')
     st.write('La descarga del CSV comenzará automáticamente.')
     for i in range(2): st.write("")
