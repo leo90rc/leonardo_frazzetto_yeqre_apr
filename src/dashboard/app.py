@@ -1,5 +1,13 @@
 import os
 import sys
+from PIL import Image
+import streamlit as st
+import pandas as pd
+import numpy as np
+from tensorflow import keras
+import matplotlib.pyplot as plt
+from tensorflow.keras import preprocessing
+import time
 
 
 dir = os.path.dirname
@@ -8,11 +16,10 @@ project_path = dir(dir(dir(os.path.abspath(__file__))))
 sys.path.append(project_path)
 
 
-from PIL import Image
-import streamlit as st
-import pandas as pd
-import numpy as np
-from tensorflow import keras
+from src.utils import models as mo_tb
+from src.utils import folders_tb as f_tb
+
+
 
 
 
@@ -27,19 +34,10 @@ if menu == 'Bienvenida':
     st.write('')
     st.write('Éste proyecto tiene la intención de establecer un modelo predictivo, el cual, basándose en el entrenamiento de Redes Neuronales Convolucionales, lograr determinar mediante la lectura de una imagen cargada por el usuario, de qué raza se trata el perro en cuestión. La red neuronal ha sido entrenada con 120 razas diferentes.')
     st.write('')
-#    st.write('A lo largo del año, pero principalmente en los meses en los que el clima más acompaña, Barcelona recibe un abultado número de turistas que se aprovechan de su geografía para disfrutar de unas vacaciones inolvidables. De esta manera, al llegar los meses de temporada alta, se puede notar que el volumen de personas aumenta por encima de lo habitual en las zonas mayor atractivo turístico.')
-#    st.write('')
-#    st.write('Se intenta evaluar qué influencia tiene esta muchedumbre en la cantidad de accidentes de tráfico que se registran en la ciudad, teniendo en cuenta que, al momento de trasladarse, los turistas tienen, entre las tantas opciones, la posibilidad de elegir transportes particulares para movilizarse, como ser vehículos, ciclomotores o bicicletas de alquiler, sin descartar que los peatones también son una fuente generadora de siniestros, más aun si desconocen la ciudad.')
-#    st.write('')
-#    st.write('Para realizar foco sobre un objeto de estudio, se plantea la siguiente hipótesis:')
-#    st.write('')
-#    st.markdown('**Durante los meses de temporada alta (Julio, Agosto y Septiembre), se registran mayor cantidad de accidentes de tráfico en las zonas más turísticas de la ciudad de Barcelona.**')
-
 
 
 
 if menu == "Visualización":
-    pass # ESTE PASS DEBE QUITARSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE !!!!!!!!!!!!!!!!!!!!!!!!!!
 
     st.title('Accidentes de tráfico registrados por la Guardia Urbana de la ciudad de Barcelona en sus barrios más turísticos')
     st.write('En la siguiente sección se presentan, evaluados por cada mes, los accidentes de tráfico registados por la Guardia Urbana de la ciudad de Barcelona, para los barrios de mayor concurrencia de turistas en los meses de temporada alta.')
@@ -60,54 +58,35 @@ if menu == "Visualización":
         st.write('BARRIO DE EL POBLE SEC')
         poble_sec = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'poble_sec_x_mes.png')
         st.image (poble_sec,use_column_width=True)
-    if menu_barrios == 'El Poblenou':
-        st.write('BARRIO DE EL POBLENOU')
-        poblenou = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'poblenou_x_mes.png')
-        st.image (poblenou,use_column_width=True)
-    if menu_barrios == 'Sant Pere, Santa Caterina i la Ribera':
-        st.write('BARRIO SANT PERE, SANTA CATERINA I LA RIBERA')
-        ribera = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'ribera_x_mes.png')
-        st.image (ribera,use_column_width=True)
-    if menu_barrios == 'La Sagrada Família':
-        st.write('BARRIO DE LA SAGRADA FAMÍLIA')
-        sagrada = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'sagrada_x_mes.png')
-        st.image (sagrada,use_column_width=True)
-    if menu_barrios == 'La Nova Esquerra de l\'Eixample':
-        st.write('BARRIO DE LA NOVA ESQUERRA DE L\'EIXAMPLE')
-        nova_esquerra = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'nova_esquerra_x_mes.png')
-        st.image (nova_esquerra,use_column_width=True)
-    if menu_barrios == 'El Fort Pienc':
-        st.write('BARRIO DE EL FORT PIENC')
-        fort_pienc = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'fort_pienc_x_mes.png')
-        st.image (fort_pienc,use_column_width=True)
-    if menu_barrios == "L'Antiga Esquerra de l'Eixample":
-        st.write('BARRIO DE L\'ANTIGA ESQUERRA DE L\'ANTIGA ESQUERRA DE L\'EIXAMPLE')
-        antigua_esquerra = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'antigua_esquerra_x_mes.png')
-        st.image (antigua_esquerra,use_column_width=True)
-    if menu_barrios == 'La Dreta de l\'Eixample':
-        st.write('BARRIO DE LA DRETA DE L\'EIXAMPLE')
-        dreta = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'dreta_x_mes.png')
-        st.image (dreta,use_column_width=True)
-    if menu_barrios == 'Sant Antoni':
-        st.write('BARRIO SANT ANTONI')
-        sant_antoni = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'sant_antoni_x_mes.png')
-        st.image (sant_antoni,use_column_width=True)
-    if menu_barrios == 'la Vila de Gràcia':
-            st.write('BARRIO DE LA VILA DE GRACIA')
-            vila_gracia = Image.open(project_path + sep + 'reports' + sep + 'plots' + sep + 'vila_gracia_x_mes.png')
-            st.image (vila_gracia,use_column_width=True)
 
 if menu == "Predicción del modelo":
-    imagen_to_predict = st.file_uploader("Select Image", type=['png', 'jpg', 'jpeg'])
-    if imagen_to_predict is not None:
-        st.write('Imagen cargada correctamente.')
-        image = Image.open(imagen_to_predict)
-        st.image(image, caption='Uploaded Image.', use_column_width=True)
-        model = keras.models.load_model(project_path + sep + 'models' + sep + 'model1_aug.h5')
-        prediccion = model.predict(image)
-        st.write(prediccion)
+    file_uploaded = st.file_uploader("Seleccione una imagen", type=['png', 'jpg', 'jpeg'])
+    boton_clasificar = st.button('Clasificar')
+    if file_uploaded is not None:
+        image = Image.open(file_uploaded)
+        st.image(image, caption='Imagen cargada', use_column_width=True)
+    
+    if boton_clasificar:
+        if file_uploaded is None:
+            st.write('Debe cargar una imagen antes de realizar la clasificación')
+        else:
+           
 
+            with st.spinner('Realizando la clasificación...'):
+                plt.imshow(image)
+                plt.axis("off")
+                file_uploaded_resized = image.resize((64, 64))
+                #file_uploaded_array = preprocessing.image.img_to_array(file_uploaded)
+                file_uploaded_array = np.array(file_uploaded_resized)
+                file_uploaded_normalized = file_uploaded_array/255
+                file_uploaded_final = file_uploaded_normalized.reshape(1, 64, 64, 3)
+                model = keras.models.load_model(project_path + sep + 'models' + sep + 'model1_aug.h5')
+                prediccion = model.predict(file_uploaded_final)
+                time.sleep(1)
+                st.success('Clasificado')
 
+                st.write(mo_tb.predecir(model,file_uploaded_final))
+                
 
 
 #    st.write('Directorio de destino: EDA_Project_Accidents/data/API_Download')

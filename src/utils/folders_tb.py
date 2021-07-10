@@ -117,5 +117,6 @@ def preparar_imagen_predecir(nombre_foto, path_foto = ('..' + os.sep + 'data' + 
     foto_predecir = cv2.imread(path_foto + nombre_foto)
     foto_predecir = Image.fromarray(foto_predecir)
     foto_predecir_resized = np.array(foto_predecir.resize((64, 64)))
-    foto_predecir_final = foto_predecir_resized.reshape(1, 64, 64, 3)
+    foto_predecir_normalized = foto_predecir_resized/255
+    foto_predecir_final = foto_predecir_normalized.reshape(1, 64, 64, 3)
     return foto_predecir_final
