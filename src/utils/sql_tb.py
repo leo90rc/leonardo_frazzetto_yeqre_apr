@@ -1,4 +1,32 @@
 import pymysql
+import os, sys
+import pandas as pd
+from sqlalchemy import create_engine
+
+dir = os.path.dirname
+sep = os.sep
+project_path = dir(dir(dir(os.path.abspath(__file__))))
+sys.path.append(project_path)
+
+
+from src.utils.folders_tb import read_json
+
+
+def enviar_tabla_SQL(nombre_tabla, nombre_fichero):
+        manage_sql_json_readed = read_json(project_path + os.sep + 'src' + os.sep + 'manage_sql.json')
+        IP_DNS = manage_sql_json_readed["IP_DNS"]
+        USER = manage_sql_json_readed["USER"]
+        PASSWORD = manage_sql_json_readed["PASSWORD"]
+        BD_NAME = manage_sql_json_readed["BD_NAME"]
+        PORT = manage_sql_json_readed["PORT"]
+        mysql_db = MySQL(IP_DNS=IP_DNS, USER=USER, PASSWORD=PASSWORD, BD_NAME=BD_NAME, PORT=PORT)
+        mysql_db.connect()
+        db_connection_str = mysql_db.SQL_ALCHEMY
+        db_connection = create_engine(db_connection_str)
+        tabla_data_file_path = project_path + os.sep + 'data' + os.sep + 'tablas' + os.sep + nombre_fichero
+        tabla_data_file = pd.read_csv(tabla_data_file_path)
+        tabla_data_file.to_sql(name = nombre_tabla, con= db_connection, if_exists= 'replace', index=False)
+        return 'La tabla ha sido insertada correctamente en la base de datos.'
 
 class MySQL:
 

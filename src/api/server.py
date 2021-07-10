@@ -12,7 +12,6 @@ sep = os.sep
 project_path = dir(dir(dir(os.path.abspath(__file__))))
 sys.path.append(project_path)
 
-print('PROYECT_PATH', project_path)
 
 from src.utils.folders_tb import read_json
 from src.utils.folders_tb import csv_to_json
@@ -41,7 +40,7 @@ if args['x'] == json_readed["argparse"]:
         x = request.args['token_id']
         S = json_readed["token_id"]
         if x == S:
-            ubicacion_data_file = project_path + sep + 'data' + sep + 'tablas' + sep + 'data_files.csv'
+            ubicacion_data_file = project_path + sep + 'data' + sep + 'tablas' + sep + 'df_metadata.csv'
             return csv_to_json(path_fichero = ubicacion_data_file)
         else:
             return "La contraseña es incorrecta."
@@ -58,7 +57,7 @@ if args['x'] == json_readed["argparse"]:
         mysql_db.connect()
         db_connection_str = mysql_db.SQL_ALCHEMY
         db_connection = create_engine(db_connection_str)
-        tabla_data_file_path = project_path + os.sep + 'data' + os.sep + 'tablas' + os.sep + 'data_files.csv'
+        tabla_data_file_path = project_path + os.sep + 'data' + os.sep + 'tablas' + os.sep + 'df_metadata.csv'
         tabla_data_file = pd.read_csv(tabla_data_file_path)
         tabla_data_file.to_sql(name = 'leonardo_gaston_frazzetto', con= db_connection, if_exists= 'replace', index=False)
         return 'La tabla ha sido insertada correctamente en la base de datos.'

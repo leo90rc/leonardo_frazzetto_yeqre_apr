@@ -1,14 +1,18 @@
 import os
 import sys
+
+
 dir = os.path.dirname
 sep = os.sep
-project_path = dir(dir(dir(__file__)))
+project_path = dir(dir(dir(os.path.abspath(__file__))))
 sys.path.append(project_path)
+
+
 from PIL import Image
 import streamlit as st
 import pandas as pd
 import numpy as np
-
+from tensorflow import keras
 
 
 
@@ -17,19 +21,19 @@ menu = st.sidebar.selectbox('Menu:', options=["Bienvenida", "Visualización", "P
 
 
 if menu == 'Bienvenida':
-    st.title('Tráfico y turistas: ¿Un cóctel explosivo?')
+    st.title('¿Y éste qué raza es?')
     st.write('')
-    st.write('La ciudad de Barcelona se ubica entre uno de los destinos predilectos a la hora de hacer turismo en España. Sumado a esto, suele tratarse además de uno de los sitios preferidos a la hora de emigrar, influyendo en esta decisión factores como ser el idioma, la ubicación geográfica, la cultura y la facilidad a la hora de insertarse en la sociedad, entre otros.')
+    st.write('Dependiendo de a quién se le pregunte, podemos encontrar respuestas muy variadas en cuanto a la cantidad de razas de perros conocidas. Puntualmente, la respuesta que brinda la Federación Cinológica Internacional (FCI), es que existen 368 razas reconocidas a título provisional.')
     st.write('')
-    st.write('A pesar de contar con medios de transporte públicos muy efectivos (metros, ferrocarriles, teleféricos, entre otros) que luchan por apaciguar el gran caudal de personas que se desplazan de un lado a otro, es cierto que muchos continúan eligiendo su transporte personal para transitar por la ciudad.')
+    st.write('Éste proyecto tiene la intención de establecer un modelo predictivo, el cual, basándose en el entrenamiento de Redes Neuronales Convolucionales, lograr determinar mediante la lectura de una imagen cargada por el usuario, de qué raza se trata el perro en cuestión. La red neuronal ha sido entrenada con 120 razas diferentes.')
     st.write('')
-    st.write('A lo largo del año, pero principalmente en los meses en los que el clima más acompaña, Barcelona recibe un abultado número de turistas que se aprovechan de su geografía para disfrutar de unas vacaciones inolvidables. De esta manera, al llegar los meses de temporada alta, se puede notar que el volumen de personas aumenta por encima de lo habitual en las zonas mayor atractivo turístico.')
-    st.write('')
-    st.write('Se intenta evaluar qué influencia tiene esta muchedumbre en la cantidad de accidentes de tráfico que se registran en la ciudad, teniendo en cuenta que, al momento de trasladarse, los turistas tienen, entre las tantas opciones, la posibilidad de elegir transportes particulares para movilizarse, como ser vehículos, ciclomotores o bicicletas de alquiler, sin descartar que los peatones también son una fuente generadora de siniestros, más aun si desconocen la ciudad.')
-    st.write('')
-    st.write('Para realizar foco sobre un objeto de estudio, se plantea la siguiente hipótesis:')
-    st.write('')
-    st.markdown('**Durante los meses de temporada alta (Julio, Agosto y Septiembre), se registran mayor cantidad de accidentes de tráfico en las zonas más turísticas de la ciudad de Barcelona.**')
+#    st.write('A lo largo del año, pero principalmente en los meses en los que el clima más acompaña, Barcelona recibe un abultado número de turistas que se aprovechan de su geografía para disfrutar de unas vacaciones inolvidables. De esta manera, al llegar los meses de temporada alta, se puede notar que el volumen de personas aumenta por encima de lo habitual en las zonas mayor atractivo turístico.')
+#    st.write('')
+#    st.write('Se intenta evaluar qué influencia tiene esta muchedumbre en la cantidad de accidentes de tráfico que se registran en la ciudad, teniendo en cuenta que, al momento de trasladarse, los turistas tienen, entre las tantas opciones, la posibilidad de elegir transportes particulares para movilizarse, como ser vehículos, ciclomotores o bicicletas de alquiler, sin descartar que los peatones también son una fuente generadora de siniestros, más aun si desconocen la ciudad.')
+#    st.write('')
+#    st.write('Para realizar foco sobre un objeto de estudio, se plantea la siguiente hipótesis:')
+#    st.write('')
+#    st.markdown('**Durante los meses de temporada alta (Julio, Agosto y Septiembre), se registran mayor cantidad de accidentes de tráfico en las zonas más turísticas de la ciudad de Barcelona.**')
 
 
 
@@ -94,15 +98,23 @@ if menu == "Visualización":
             st.image (vila_gracia,use_column_width=True)
 
 if menu == "Predicción del modelo":
-    pass # ESTE PASS DEBE QUITARSEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    st.title('WEB APP')
-    st.write('La descarga del CSV comenzará automáticamente.')
-    for i in range(2): st.write("")
-    st.write('Directorio de destino: EDA_Project_Accidents/data/API_Download')
-    st.write('Nombre fichero: accidentes_barcelona_2010-2020.csv')
-    dataframe_accidentes = pd.read_json('http://localhost:6060/obtener_json?token_id=Y6571256D')
-    st.table(dataframe_accidentes)
-    dataframe_accidentes.to_csv(project_path + '/data/API_Download/accidentes_barcelona_2010-2020.csv', index = False, encoding = 'utf-8')
+    imagen_to_predict = st.file_uploader("Select Image", type=['png', 'jpg', 'jpeg'])
+    if imagen_to_predict is not None:
+        st.write('Imagen cargada correctamente.')
+        image = Image.open(imagen_to_predict)
+        st.image(image, caption='Uploaded Image.', use_column_width=True)
+        model = keras.models.load_model(project_path + sep + 'models' + sep + 'model1_aug.h5')
+        prediccion = model.predict(image)
+        st.write(prediccion)
+
+
+
+
+#    st.write('Directorio de destino: EDA_Project_Accidents/data/API_Download')
+#    st.write('Nombre fichero: accidentes_barcelona_2010-2020.csv')
+#    dataframe_accidentes = pd.read_json('http://localhost:6060/obtener_json?token_id=Y6571256D')
+#    st.table(dataframe_accidentes)
+#    dataframe_accidentes.to_csv(project_path + '/data/API_Download/accidentes_barcelona_2010-2020.csv', index = False, encoding = 'utf-8')
 
 if menu == "Modelos de BBDD SQL":
     pass

@@ -5,6 +5,7 @@ import numpy as np
 import tensorflow as tf
 import json
 import pandas as pd
+from PIL import Image
 
 dir = os.path.dirname
 sep = os.sep
@@ -81,3 +82,40 @@ def csv_to_json(path_fichero):
     dataframe_ml = pd.read_csv(path_fichero)
     json_ml = dataframe_ml.to_json(indent = 4)
     return json_ml
+
+
+def cargar_imagenes_and_labels(razas, path_set):
+    lista_imagenes = []
+    lista_labels = []
+    for i, raza in enumerate(razas):
+        for image_name in os.listdir(path_set + sep + raza):
+            imagen = cv2.imread(path_set + sep + raza + sep + image_name)
+            imagen_foto = Image.fromarray(imagen)
+            resized_imagen_foto = imagen_foto.resize((64, 64))
+            lista_imagenes.append(np.array(resized_imagen_foto))
+            lista_labels.append(i)
+
+    return lista_imagenes, lista_labels
+
+
+def df_metadata(razas, path_set):
+    lista_filenames = []
+    lista_labels = []
+    lista_resolucion = []
+    for i, raza in enumerate(razas):
+        for image_name in os.listdir(path_set + sep + raza):
+            imagen = cv2.imread(path_set + sep + raza + sep + image_name)
+            lista_labels.append(raza)
+            lista_filenames.append(image_name)
+            lista_resolucion.append((imagen.shape[0], imagen.shape[1]))
+
+    df_data = pd.DataFrame(data= {'Filename': lista_filenames, 'Resolución': lista_resolucion, 'Etiqueta': lista_labels})
+    return df_data
+
+
+def preparar_imagen_predecir(nombre_foto, path_foto = ('..' + os.sep + 'data' + os.sep + 'fotos_perros' + os.sep)):
+    foto_predecir = cv2.imread(path_foto + nombre_foto)
+    foto_predecir = Image.fromarray(foto_predecir)
+    foto_predecir_resized = np.array(foto_predecir.resize((64, 64)))
+    foto_predecir_final = foto_predecir_resized.reshape(1, 64, 64, 3)
+    return foto_predecir_final

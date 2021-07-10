@@ -1,0 +1,4 @@
+Modelo,Parámetros,Recall,Score
+Model1,"{'Tipo': 'CNN', 'input_shape': (64, 64, 3), 'MaxPooling': 2, 'Conv2D': 2, 'Flatten': 1, 'Dense': 2, 'Capa salida': 'softmax', 'optimizer': 'adam', 'loss': 'sparce_categorical_crossentropy', 'metrics': 'accuracy'}",0.08396484887389485,0.07488379447859053
+Model2,"{'Tipo': 'CNN', 'input_shape': (64, 64, 1), 'MaxPooling': 2, 'Conv2D': 2, 'Flatten': 1, 'Dense': 2, 'Capa salida': 'softmax', 'optimizer': 'adam', 'loss': 'sparce_categorical_crossentropy', 'metrics': 'accuracy'}",0.06239031094657655,0.051092456030626524
+Model1_aug,"{'Tipo': 'CNN', 'input_shape': (64, 64, 1), 'MaxPooling': 2, 'Conv2D': 2, 'Flatten': 1, 'Dense': 2, 'Capa salida': 'softmax', 'optimizer': 'adam', 'loss': 'sparce_categorical_crossentropy', 'metrics': 'accuracy', 'Data Augmentation': {'shear_range': 0.3, 'zoom_range': 0.3, 'rotation_range': 30, 'horizontal_flip': True}}",0.0835018530546176,0.07360557033763891
