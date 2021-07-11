@@ -7,5 +7,5 @@
     "project_description": "Dependiendo de a quién se le pregunte, podemos encontrar respuestas muy variadas en cuanto a la cantidad de razas de perros conocidas. Puntualmente, la respuesta que brinda la Federación Cinológica Internacional (FCI), es que existen 368 razas reconocidas a título provisional. Éste proyecto tiene la intención de establecer un modelo predictivo, el cual, basándose en el entrenamiento de Redes Neuronales Convolucionales, lograr determinar mediante la lectura de una imagen cargada por el usuario, de qué raza se trata el perro en cuestión. La red neuronal ha sido entrenada con 120 razas diferentes.",
     "flask_port": 6060,
     "streamlit_port": 8501,
-    "links": ""
+    "links": "www.kaggle.com"
 }

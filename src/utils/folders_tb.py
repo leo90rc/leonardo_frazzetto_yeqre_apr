@@ -13,7 +13,10 @@ project_path = dir(dir(dir(os.path.abspath(__file__))))
 sys.path.append(project_path)
 
 
-def cargar_imagenes_diccionario(path):      # NO UTILIZADAAAAAAAAAAAAAAAA
+def cargar_imagenes_diccionario(path):
+    '''Carga las imágenes que se encuentran dentro de un directorio específico recorriendo todas las carpetas que contenga.
+    Parámetro: path: el path de la carpeta raiz de la cual se quieren cargar las imágenes.
+    Retorna un diccionario con el label como key y la un array de la imagen como value'''
     dict_imagenes = {}
     for root, dirs, files in os.walk(path):
         #print(os.path.basename(root))
@@ -85,6 +88,11 @@ def csv_to_json(path_fichero):
 
 
 def cargar_imagenes_and_labels(razas, path_set):
+    '''Carga imágenes recorriendo las carpetas de un determinado directorio.
+    Parámetros: - razas: lista con los nombres (string) de las carpetas que contienen las imágenes a cargar.
+                - path_set: path de la carpeta raiz que contiene las carpetas donde se encuentran las imágenes a cargar.
+    Retorna:- Una lista con las imágenes cargadas como arrays.
+            - Una lista con los labels de cada una de las imágenes'''
     lista_imagenes = []
     lista_labels = []
     for i, raza in enumerate(razas):
@@ -120,3 +128,11 @@ def preparar_imagen_predecir(nombre_foto, path_foto = ('..' + os.sep + 'data' + 
     foto_predecir_normalized = foto_predecir_resized/255
     foto_predecir_final = foto_predecir_normalized.reshape(1, 64, 64, 3)
     return foto_predecir_final
+
+
+def excel_resources_df(nombre_archivo):
+    ''' Lee un archivo .xlsx ubicado en la dirección /resources y lo carga como un dataframe.
+        Arg: nombre_archivo: Nombre del archivo que se desea abrir en string (se debe agregar ".xlsx"). '''
+    global df
+    df = pd.read_excel(project_path + sep + 'resources' + sep + nombre_archivo)
+    return df
