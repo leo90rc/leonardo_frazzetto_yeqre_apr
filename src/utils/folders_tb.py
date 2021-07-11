@@ -113,7 +113,7 @@ def df_metadata(razas, path_set):
     return df_data
 
 
-def preparar_imagen_predecir(nombre_foto, path_foto = ('..' + os.sep + 'data' + os.sep + 'fotos_perros' + os.sep)):
+def preparar_imagen_predecir(nombre_foto, path_foto = ('..' + os.sep + 'data' + os.sep + 'fotos_perros' + os.sep + 'to_predict' + os.sep)):
     foto_predecir = cv2.imread(path_foto + nombre_foto)
     foto_predecir = Image.fromarray(foto_predecir)
     foto_predecir_resized = np.array(foto_predecir.resize((64, 64)))

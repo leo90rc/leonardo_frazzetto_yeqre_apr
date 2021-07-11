@@ -37,7 +37,6 @@ class MySQL:
         self.BD_NAME = BD_NAME
         self.PORT = PORT
         self.SQL_ALCHEMY = 'mysql+pymysql://' + self.USER + ':' + self.PASSWORD + '@' + self.IP_DNS + ':' + str(self.PORT) + '/' + self.BD_NAME
-        # 'mysql+pymysql://user:password@91.76.54.33:20001/apr_july_2021_tb'
     def connect(self):
         # Open database connection
         self.db = pymysql.connect(host=self.IP_DNS,
@@ -50,11 +49,13 @@ class MySQL:
         print("Connected to MySQL server [" + self.BD_NAME + "]")
         return self.db
 
-    def close(self):
+
+ #   def close(self):
         # disconnect from server
-        self.db.close()
-        print("Close connection with MySQL server [" + self.BD_NAME + "]")
+  #      self.db.close()
+   #     print("Close connection with MySQL server [" + self.BD_NAME + "]")
     
+
     def execute_interactive_sql(self, sql, delete=False):
         """ NO SELECT """
         result = 0
@@ -70,7 +71,7 @@ class MySQL:
             # Rollback in case there is any error
             self.db.rollback()
         return result
-        
+        '''
     def execute_get_sql(self, sql):
         """SELECT"""
         results = None
@@ -103,3 +104,4 @@ class MySQL:
 
         sql = sql.replace("\n", "").replace("            ", " ")
         return sql
+        '''
